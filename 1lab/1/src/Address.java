@@ -2,11 +2,11 @@ import java.io.*;
 import java.util.*;
 
 public class Address {
-    public static void StringToArray(String str, List<Integer> list) {
-        char separator = '.';
+    public static final char SEPARATOR = '.';
+    public static void StringToList(String str, List<Integer> list) {
         String line = "";
         for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == separator) {
+            if (str.charAt(i) == SEPARATOR) {
                 list.add(Integer.parseInt(line));
                 line = "";
                 i++;
@@ -24,18 +24,27 @@ public class Address {
         return address;
     }
 
+    public static void CheckData(List<Integer> ipArr, List<Integer> maskArr) {
+        final int PARTS_OF_ADDRESS = 4;
+        if ((ipArr.size() != PARTS_OF_ADDRESS) || (maskArr.size() != PARTS_OF_ADDRESS)) {
+            System.out.println("Wrong input data!");
+        } else {
+            List<Integer> address = new ArrayList<>();
+            address = getNetAddress(ipArr, maskArr);
+            for (int t : address) {
+                System.out.print(Integer.toString(t) + SEPARATOR);
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         String ip = args[0];
         String mask = args[1];
         List<Integer> ipArr = new ArrayList<>();
         List<Integer> maskArr = new ArrayList<>();
-        StringToArray(ip, ipArr);
-        StringToArray(mask, maskArr);
+        StringToList(ip, ipArr);
+        StringToList(mask, maskArr);
+        CheckData(ipArr, maskArr);
 
-        List<Integer> address = new ArrayList<>();
-        address = getNetAddress(ipArr, maskArr);
-        for (int t : address) {
-            System.out.print(Integer.toString(t) + '.');
-        }
     }
 }
