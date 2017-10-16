@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Address {
     public static final char SEPARATOR = '.';
+    public static final int COUNT_OF_ARGUMENTS = 2;
     public static void StringToList(String str, List<Integer> list) {
         String line = "";
         for (int i = 0; i < str.length(); i++) {
@@ -33,25 +34,29 @@ public class Address {
         return statement;
     }
 
-    public static boolean isIP(String str)
-    {
+    public static boolean isIP(String str) {
         return str.matches("([0-9]{1,3}[\\.]){3}[0-9]{1,3}");
     }
 
     public static void main(String[] args) throws IOException {
-        String ip = args[0];
-        String mask = args[1];
-        if (CheckInputStrings(ip, mask)) {
-            List<Integer> ipArr = new ArrayList<>();
-            List<Integer> maskArr = new ArrayList<>();
-            StringToList(ip, ipArr);
-            StringToList(mask, maskArr);
-            List<Integer> address = getNetAddress(ipArr, maskArr);
-            for (int t : address) {
-                System.out.print(Integer.toString(t) + SEPARATOR);
-            }
+        if (args.length != COUNT_OF_ARGUMENTS) {
+            System.out.println("Wrong count of argument!");
         } else {
-            System.out.println("Input data wrong!");
+            String ip = args[0];
+            String mask = args[1];
+            if (CheckInputStrings(ip, mask)) {
+                List<Integer> ipArr = new ArrayList<>();
+                List<Integer> maskArr = new ArrayList<>();
+                StringToList(ip, ipArr);
+                StringToList(mask, maskArr);
+                List<Integer> address = getNetAddress(ipArr, maskArr);
+                for (int t : address) {
+                    System.out.print(Integer.toString(t) + SEPARATOR);
+                }
+            } else {
+                System.out.println("Input data wrong!");
+            }
         }
+
     }
 }
